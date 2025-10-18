@@ -6,48 +6,44 @@
     <title>សរុបហិរញ្ញវត្ថុ ADI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <!-- Khmer Font for PDF (Base64 encoded) -->
+    <script src="https://storage.googleapis.com/gemini-generative-ai-dev/khmer-font-for-pdf/KantumruyPro-Regular-base64.js"></script>
     <style>
         body {
             font-family: 'Kantumruy Pro', sans-serif;
             scroll-behavior: smooth;
         }
-        /* Custom scrollbar for better look on desktop */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1f2937;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4b5563;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6b7280;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        .ph { display: inline-block; vertical-align: middle; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-200">
+<body class="bg-gray-950 text-gray-200">
 
-    <div class="container mx-auto max-w-2xl p-4 min-h-screen">
+    <div class="container mx-auto max-w-5xl p-4 min-h-screen">
         <!-- Header -->
         <header class="text-center mb-6 pt-4">
-            <div class="bg-gradient-to-r from-blue-600 to-teal-500 p-4 rounded-xl shadow-lg">
+            <div class="bg-gradient-to-r from-blue-600 to-teal-500 p-4 rounded-xl shadow-lg relative max-w-2xl mx-auto">
                 <h1 class="text-3xl font-bold text-white">សរុបហិរញ្ញវត្ថុ</h1>
                 <p class="text-white/80 mt-1">ឧស្សាហកម្មឌីជីថល (ADI)</p>
+                <button onclick="main()" class="absolute top-3 right-3 bg-white/20 hover:bg-white/30 text-white rounded-full p-2 transition-colors duration-200" title="ធ្វើឱ្យស្រស់">
+                    <i class="ph ph-arrow-clockwise text-xl leading-none"></i>
+                </button>
             </div>
         </header>
 
         <!-- Loading State -->
         <div id="loading" class="text-center py-10">
             <div role="status" class="flex items-center justify-center gap-2">
-                <svg aria-hidden="true" class="w-8 h-8 text-gray-600 animate-spin fill-blue-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0492C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                </svg>
+                <svg aria-hidden="true" class="w-8 h-8 text-gray-600 animate-spin fill-blue-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0492C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
                 <span class="text-lg">កំពុងទាញយកទិន្នន័យ...</span>
             </div>
         </div>
@@ -58,84 +54,349 @@
             <p class="text-sm text-red-300">សូមពិនិត្យមើល Sheet ID និង Sheet Name ឬប្រាកដថា Sheet ត្រូវបានផ្សព្វផ្សាយជាសាធារណៈ។</p>
         </div>
 
-        <!-- Dashboard -->
-        <div id="dashboard" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div class="bg-gray-800 p-4 rounded-xl shadow-md flex flex-col items-center justify-center">
-                <p class="text-sm text-gray-400 mb-1">ចំណូល</p>
-                <p id="income-total" class="text-2xl font-bold text-blue-400">...</p>
+        <!-- Main Content -->
+        <main id="main-content" class="hidden">
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden mb-4 max-w-2xl mx-auto">
+                <button id="menu-toggle-button" class="w-full bg-gray-800 text-gray-300 py-2 px-4 rounded-lg flex items-center justify-center gap-2">
+                    <i class="ph ph-list"></i>
+                    <span>Filter & Options</span>
+                </button>
             </div>
-            <div class="bg-gray-800 p-4 rounded-xl shadow-md flex flex-col items-center justify-center">
-                <p class="text-sm text-gray-400 mb-1">ចំណាយពីការសន្សំ</p>
-                <p id="savings-expense" class="text-2xl font-bold text-teal-400">...</p>
+
+            <!-- Mobile Menu Panel -->
+            <div id="mobile-menu" class="hidden md:hidden mb-6 bg-gray-900 p-4 rounded-xl border border-gray-700 max-w-2xl mx-auto">
+                <div id="dashboard-mobile" class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4"></div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="month-filter" class="text-sm text-gray-400 block mb-1">ខែ</label>
+                        <select id="month-filter" class="w-full bg-gray-800 border-gray-700 rounded-md p-2"></select>
+                    </div>
+                    <div>
+                        <label for="year-filter" class="text-sm text-gray-400 block mb-1">ឆ្នាំ</label>
+                        <select id="year-filter" class="w-full bg-gray-800 border-gray-700 rounded-md p-2"></select>
+                    </div>
+                </div>
+                <button id="download-pdf" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2">
+                    <i class="ph ph-file-pdf"></i>
+                    <span>ទាញយក PDF</span>
+                </button>
             </div>
-            <div class="bg-gray-800 p-4 rounded-xl shadow-md flex flex-col items-center justify-center">
-                <p class="text-sm text-gray-400 mb-1">សមតុល្យ</p>
-                <p id="balance" class="text-2xl font-bold text-green-400">...</p>
+            
+            <div class="md:grid md:grid-cols-5 md:gap-6">
+                <!-- Left Side: Transactions -->
+                <div class="md:col-span-3">
+                    <!-- Desktop Dashboard -->
+                    <div id="dashboard-desktop" class="hidden md:grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+
+                    <!-- Transactions List -->
+                    <div id="transactions-container" class="bg-gray-900 p-4 rounded-xl border border-gray-700">
+                        <h2 class="text-lg font-bold mb-3 text-gray-300">ប្រតិបត្តិការ</h2>
+                        <div id="transactions-list" class="space-y-2 max-h-[60vh] overflow-y-auto"></div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Desktop Filters -->
+                <div class="hidden md:block md:col-span-2">
+                     <div class="bg-gray-900 p-4 rounded-xl border border-gray-700 sticky top-4">
+                        <h2 class="text-lg font-bold mb-3 text-gray-300">តម្រង & ជម្រើស</h2>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="month-filter-desktop" class="text-sm text-gray-400 block mb-1">ខែ</label>
+                                <select id="month-filter-desktop" class="w-full bg-gray-800 border-gray-700 rounded-md p-2"></select>
+                            </div>
+                            <div>
+                                <label for="year-filter-desktop" class="text-sm text-gray-400 block mb-1">ឆ្នាំ</label>
+                                <select id="year-filter-desktop" class="w-full bg-gray-800 border-gray-700 rounded-md p-2"></select>
+                            </div>
+                        </div>
+                        <button id="download-pdf-desktop" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2">
+                            <i class="ph ph-file-pdf"></i>
+                            <span>ទាញយក PDF លម្អិត</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <script>
         const SHEET_ID = '1FFtSGCjQB5pNqb-5wP12jK3WsVV6SUuwnVWKeyI42sY';
-        const SHEET_NAME = 'DBSAVE';
-        const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
+        const SHEET_NAME = 'ADI';
+        const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}&range=B8:F`;
 
+        // --- DOM Elements ---
         const loadingEl = document.getElementById('loading');
         const errorEl = document.getElementById('error');
-        const dashboardEl = document.getElementById('dashboard');
-        const incomeEl = document.getElementById('income-total');
-        const savingsExpenseEl = document.getElementById('savings-expense');
-        const balanceEl = document.getElementById('balance');
-        
-        // Function to count entries from CSV data
-        function getSavingsCount(text) {
-            // Data starts from row 167, so we skip the first 166 lines.
-            const lines = text.split('\n').slice(166);
-            let count = 0;
+        const mainContentEl = document.getElementById('main-content');
+        const transactionsListEl = document.getElementById('transactions-list');
+        // Mobile
+        const menuToggleBtn = document.getElementById('menu-toggle-button');
+        const mobileMenuEl = document.getElementById('mobile-menu');
+        const monthFilterEl = document.getElementById('month-filter');
+        const yearFilterEl = document.getElementById('year-filter');
+        const downloadPdfBtn = document.getElementById('download-pdf');
+        // Desktop
+        const monthFilterDesktopEl = document.getElementById('month-filter-desktop');
+        const yearFilterDesktopEl = document.getElementById('year-filter-desktop');
+        const downloadPdfDesktopBtn = document.getElementById('download-pdf-desktop');
+
+        let allTransactions = [];
+        let availableDates = {}; // To store { year: Set(months) }
+
+        function parseCSVData(text) {
+            const lines = text.split('\n');
+            const transactions = [];
             lines.forEach(line => {
+                if (!line.trim()) return;
                 const parts = line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
-                // Check if Column B (index 1) has data
-                if (parts.length > 1 && parts[1] && parts[1].trim().replace(/^"|"$/g, '').trim() !== '') {
-                    count++;
+                if (parts.length < 5) return;
+                const cleanedParts = parts.map(part => part.trim().replace(/^"|"$/g, '').trim());
+                const [requester, category, description, valueStr, dateStr] = cleanedParts;
+                const value = parseFloat(valueStr.replace(/[^0-9.-]+/g, ""));
+                if (description && dateStr && !isNaN(value) && value > 0) {
+                    const dateParts = dateStr.split('-');
+                    if (dateParts.length === 3) {
+                       const date = new Date(`20${dateParts[2]}`, dateParts[1] - 1, dateParts[0]);
+                        transactions.push({ 
+                            date, 
+                            fullDescription: category ? `${category}: ${description}` : description,
+                            category: category || 'ផ្សេងៗ',
+                            description: description,
+                            value, 
+                            requester 
+                        });
+                    }
                 }
             });
-            return count;
+            return transactions;
         }
 
-        // Main function to fetch and display data
+        function updateDashboard(filteredTransactions) {
+            const expenseTotal = filteredTransactions.reduce((sum, tx) => sum + tx.value, 0);
+            const income = 36500;
+            const balance = income - expenseTotal;
+            const dashboardHtml = `
+                <div class="bg-gray-900 p-4 rounded-xl shadow-md border border-gray-700">
+                    <div class="flex items-center justify-between mb-2"><p class="text-sm text-gray-400">ចំណូល</p><i class="ph-fill ph-arrow-down-left text-blue-400 text-2xl"></i></div>
+                    <p class="text-2xl font-bold text-blue-400">${income.toLocaleString('km-KH')} ៛</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-xl shadow-md border border-gray-700">
+                    <div class="flex items-center justify-between mb-2"><p class="text-sm text-gray-400">ចំណាយ</p><i class="ph-fill ph-arrow-up-right text-teal-400 text-2xl"></i></div>
+                    <p class="text-2xl font-bold text-teal-400">${expenseTotal.toLocaleString('km-KH')} ៛</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-xl shadow-md border border-gray-700">
+                    <div class="flex items-center justify-between mb-2"><p class="text-sm text-gray-400">សមតុល្យ</p><i class="ph-fill ph-wallet text-green-400 text-2xl"></i></div>
+                    <p class="text-2xl font-bold ${balance < 0 ? 'text-red-400' : 'text-green-400'}">${balance.toLocaleString('km-KH')} ៛</p>
+                </div>`;
+            document.getElementById('dashboard-desktop').innerHTML = dashboardHtml;
+            document.getElementById('dashboard-mobile').innerHTML = dashboardHtml;
+        }
+
+        function renderTransactions(transactions) {
+            transactionsListEl.innerHTML = '';
+            if (transactions.length === 0) {
+                transactionsListEl.innerHTML = `<p class="text-gray-500 text-center py-4">គ្មានប្រតិបត្តិការសម្រាប់ខែនេះ</p>`;
+                return;
+            }
+            transactions.sort((a, b) => b.date - a.date);
+            transactions.forEach(tx => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'bg-gray-800/50 p-3 rounded-lg flex justify-between items-center';
+                const formattedValue = tx.value.toLocaleString('km-KH');
+                const formattedDate = tx.date.toLocaleDateString('km-KH', { day: '2-digit', month: '2-digit', year: '2-digit' });
+                itemEl.innerHTML = `
+                    <div>
+                        <p class="text-gray-200 font-medium">${tx.fullDescription}</p>
+                        <p class="text-xs text-gray-500">${formattedDate} • ${tx.requester}</p>
+                    </div>
+                    <p class="font-bold text-teal-400 text-right whitespace-nowrap pl-4">${formattedValue} ៛</p>`;
+                transactionsListEl.appendChild(itemEl);
+            });
+        }
+        
+        function updateMonthFilter(selectedYear) {
+            const monthNames = ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា", "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
+            const monthsForYear = Array.from(availableDates[selectedYear] || []).sort((a, b) => a - b);
+            
+            [monthFilterEl, monthFilterDesktopEl].forEach(el => {
+                const currentVal = el.value;
+                el.innerHTML = '';
+                if (monthsForYear.length === 0) {
+                    el.innerHTML = '<option>គ្មានទិន្នន័យ</option>';
+                    return;
+                }
+                monthsForYear.forEach(monthIndex => {
+                    const option = document.createElement('option');
+                    option.value = monthIndex;
+                    option.textContent = monthNames[monthIndex];
+                    el.appendChild(option);
+                });
+                if (monthsForYear.includes(parseInt(currentVal))) {
+                    el.value = currentVal;
+                }
+            });
+        }
+
+        function populateFilters() {
+            availableDates = allTransactions.reduce((acc, tx) => {
+                const year = tx.date.getFullYear();
+                const month = tx.date.getMonth();
+                if (!acc[year]) {
+                    acc[year] = new Set();
+                }
+                acc[year].add(month);
+                return acc;
+            }, {});
+            
+            const uniqueYears = Object.keys(availableDates).sort((a, b) => b - a);
+            
+            [yearFilterEl, yearFilterDesktopEl].forEach(el => {
+                el.innerHTML = '';
+                if (uniqueYears.length === 0) {
+                    el.innerHTML = '<option>គ្មានទិន្នន័យ</option>';
+                    return;
+                }
+                uniqueYears.forEach(year => {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    el.appendChild(option);
+                });
+            });
+
+            if (uniqueYears.length > 0) {
+                const latestYear = uniqueYears[0];
+                yearFilterEl.value = latestYear;
+                yearFilterDesktopEl.value = latestYear;
+                
+                updateMonthFilter(latestYear);
+
+                const monthsForLatestYear = Array.from(availableDates[latestYear]).sort((a, b) => b - a);
+                if (monthsForLatestYear.length > 0) {
+                    const latestMonth = monthsForLatestYear[0];
+                    monthFilterEl.value = latestMonth;
+                    monthFilterDesktopEl.value = latestMonth;
+                }
+            } else {
+                updateMonthFilter(null);
+            }
+        }
+
+        function applyFilters() {
+            const selectedMonth = parseInt(monthFilterEl.value);
+            const selectedYear = parseInt(yearFilterEl.value);
+
+            if (isNaN(selectedMonth) || isNaN(selectedYear)) {
+                updateDashboard([]);
+                renderTransactions([]);
+                return;
+            }
+
+            const filtered = allTransactions.filter(tx => 
+                tx.date.getMonth() === selectedMonth && 
+                tx.date.getFullYear() === selectedYear
+            );
+            
+            updateDashboard(filtered);
+            renderTransactions(filtered);
+        }
+
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.addFileToVFS('KantumruyPro-Regular.ttf', kantumruyFontBase64);
+            doc.addFont('KantumruyPro-Regular.ttf', 'KantumruyPro', 'normal');
+            doc.setFont('KantumruyPro');
+            
+            const selectedMonth = parseInt(monthFilterEl.value);
+            const selectedYear = parseInt(yearFilterEl.value);
+            const monthNames = ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា", "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
+            const filtered = allTransactions.filter(tx => tx.date.getMonth() === selectedMonth && tx.date.getFullYear() === selectedYear);
+
+            let prevMonth = selectedMonth - 1;
+            let prevYear = selectedYear;
+            if (prevMonth < 0) {
+                prevMonth = 11;
+                prevYear -= 1;
+            }
+            const prevMonthFiltered = allTransactions.filter(tx => tx.date.getMonth() === prevMonth && tx.date.getFullYear() === prevYear);
+            const expenseTotalCurrent = filtered.reduce((sum, tx) => sum + tx.value, 0);
+            const expenseTotalPrevious = prevMonthFiltered.reduce((sum, tx) => sum + tx.value, 0);
+
+            let comparisonText = "គ្មានទិន្នន័យខែមុនសម្រាប់ប្រៀបធៀប។";
+            if (expenseTotalPrevious > 0) {
+                const percentageChange = ((expenseTotalCurrent - expenseTotalPrevious) / expenseTotalPrevious) * 100;
+                const changeValue = Math.abs(percentageChange).toFixed(1);
+                const prevTotalFormatted = expenseTotalPrevious.toLocaleString('km-KH');
+                if (percentageChange > 0) {
+                    comparisonText = `ចំណាយកើនឡើង ${changeValue}% ធៀបនឹងខែមុន (${prevTotalFormatted} ៛)។`;
+                } else if (percentageChange < 0) {
+                    comparisonText = `ចំណាយថយចុះ ${changeValue}% ធៀបនឹងខែមុន (${prevTotalFormatted} ៛)។`;
+                } else {
+                    comparisonText = `ចំណាយស្មើនឹងខែមុន (${prevTotalFormatted} ៛)។`;
+                }
+            }
+
+            let categoryAnalysisText = "គ្មានប្រតិបត្តិការចំណាយក្នុងខែនេះ។";
+            if (filtered.length > 0) {
+                const categoryTotals = filtered.reduce((acc, tx) => {
+                    acc[tx.category] = (acc[tx.category] || 0) + tx.value;
+                    return acc;
+                }, {});
+
+                const topCategory = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1])[0];
+                if (topCategory) {
+                    categoryAnalysisText = `ប្រភេទចំណាយធំជាងគេគឺ "${topCategory[0]}" (${topCategory[1].toLocaleString('km-KH')} ៛)។`;
+                }
+            }
+
+            doc.setFontSize(18);
+            doc.text(`របាយការណ៍ហិរញ្ញវត្ថុ ADI`, 105, 15, { align: 'center' });
+            doc.setFontSize(14);
+            doc.text(`ប្រចាំខែ ${monthNames[selectedMonth]} ឆ្នាំ ${selectedYear}`, 105, 22, { align: 'center' });
+            const income = 36500;
+            const balance = income - expenseTotalCurrent;
+            doc.setFontSize(12);
+            doc.text(`ចំណូលសរុប: ${income.toLocaleString('km-KH')} ៛`, 14, 35);
+            doc.text(`ចំណាយសរុប: ${expenseTotalCurrent.toLocaleString('km-KH')} ៛`, 14, 42);
+            doc.text(`សមតុល្យចុងគ្រា: ${balance.toLocaleString('km-KH')} ៛`, 14, 49);
+            doc.setFontSize(14);
+            doc.text('ការវិភាគសរុប', 14, 60);
+            doc.setLineWidth(0.5);
+            doc.line(14, 61, 196, 61);
+            doc.setFontSize(10);
+            doc.text(`- ${comparisonText}`, 14, 68);
+            doc.text(`- ${categoryAnalysisText}`, 14, 75);
+            const tableData = filtered.sort((a,b) => a.date - b.date).map(tx => [
+                tx.date.toLocaleDateString('en-GB'),
+                tx.fullDescription,
+                tx.requester,
+                `${tx.value.toLocaleString('km-KH')} ៛`
+            ]);
+            doc.autoTable({
+                startY: 82,
+                head: [['កាលបរិច្ឆេទ', 'បរិយាយ', 'អ្នកស្នើ', 'តម្លៃ']],
+                body: tableData,
+                styles: { font: 'KantumruyPro', fontStyle: 'normal' },
+                headStyles: { fillColor: [22, 163, 74] },
+                theme: 'grid'
+            });
+            doc.save(`ADI-Report-${selectedYear}-${selectedMonth + 1}.pdf`);
+        }
+
         async function main() {
             try {
                 loadingEl.style.display = 'block';
                 errorEl.style.display = 'none';
-                dashboardEl.style.display = 'none';
-
-                const response = await fetch(CSV_URL);
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok, status: ${response.status}`);
-                }
+                mainContentEl.style.display = 'none';
+                const response = await fetch(`${CSV_URL}&t=${new Date().getTime()}`);
+                if (!response.ok) throw new Error(`Network error: ${response.status}`);
                 const csvText = await response.text();
-                
-                const savingsCount = getSavingsCount(csvText);
-                const savingsTotal = savingsCount * 500;
-                const income = 36500;
-                const balance = income - savingsTotal;
-
-                // Update UI
-                incomeEl.textContent = `${income.toLocaleString('km-KH')} ៛`;
-                savingsExpenseEl.textContent = `${savingsTotal.toLocaleString('km-KH')} ៛`;
-                balanceEl.textContent = `${balance.toLocaleString('km-KH')} ៛`;
-
-                // Change balance color based on value
-                if (balance < 0) {
-                    balanceEl.classList.remove('text-green-400');
-                    balanceEl.classList.add('text-red-400');
-                } else {
-                    balanceEl.classList.remove('text-red-400');
-                    balanceEl.classList.add('text-green-400');
-                }
-                
-                dashboardEl.style.display = 'grid';
-
+                allTransactions = parseCSVData(csvText);
+                populateFilters();
+                applyFilters();
+                mainContentEl.style.display = 'block';
             } catch (err) {
                 console.error('Fetch error:', err);
                 errorEl.style.display = 'block';
@@ -143,10 +404,43 @@
                 loadingEl.style.display = 'none';
             }
         }
+        
+        function initializeApp() {
+            menuToggleBtn.addEventListener('click', () => mobileMenuEl.classList.toggle('hidden'));
 
-        // Run the app when the page loads
-        document.addEventListener('DOMContentLoaded', main);
+            const syncAndUpdate = (source, targets) => {
+                targets.forEach(target => {
+                    if (target !== source) {
+                        target.value = source.value;
+                    }
+                });
 
+                if (source.id.includes('year-filter')) {
+                    updateMonthFilter(source.value);
+                    const firstMonthValue = monthFilterEl.options[0]?.value;
+                    if (firstMonthValue) {
+                        monthFilterEl.value = firstMonthValue;
+                        monthFilterDesktopEl.value = firstMonthValue;
+                    }
+                }
+                applyFilters();
+            };
+
+            [yearFilterEl, yearFilterDesktopEl].forEach(el => {
+                el.addEventListener('change', () => syncAndUpdate(el, [yearFilterEl, yearFilterDesktopEl]));
+            });
+
+            [monthFilterEl, monthFilterDesktopEl].forEach(el => {
+                el.addEventListener('change', () => syncAndUpdate(el, [monthFilterEl, monthFilterDesktopEl]));
+            });
+
+            downloadPdfBtn.addEventListener('click', generatePDF);
+            downloadPdfDesktopBtn.addEventListener('click', generatePDF);
+            
+            main();
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 </html>
